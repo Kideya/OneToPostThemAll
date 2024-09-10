@@ -26,10 +26,10 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 async def on_ready():
     print(f'Bot is online! Logged in as {bot.user.name}')
     # This part is to annoy my brother
-    # user_id = 600748875707449374
-    # channel = await bot.fetch_user(user_id)
-    # await channel.send(f'I just wanted to tell you that you are pretty gay, {channel.mention}!')
-    # print(f'{bot.user} is now online and has sent a message to {channel}!')
+    user_id = 600748875707449374
+    channel = await bot.fetch_user(user_id)
+    await channel.send(f'I just wanted to tell you that you are pretty gay, {channel.mention}!')
+    print(f'{bot.user} is now online and has sent a message to {channel}!')
 
 # Command: Greets the user when they type '!Hallo'
 @bot.command(help='Greet me!')
@@ -54,6 +54,10 @@ async def Spacestatus(ctx):
 @bot.command(name='Link', help='Shows the link to the website')
 async def Link(ctx):
     await ctx.channel.send('https://www.netz39.de/')
+
+@bot.command(name='Miau', help='Miau')
+async def Furry(ctx):
+    await ctx.channel.send('Miau :scream_cat:')
 
 # Command: Sends some small update about current temperature and the weather to the User change latitute/longitute to your city to see current values from you location.
 @bot.command(help= 'Whats the weather like in Magdeburg?')
