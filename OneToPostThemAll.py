@@ -1,5 +1,6 @@
 import discord
 import requests
+import json
 from PIL import Image
 from io import BytesIO
 from discord.ext import commands
@@ -7,7 +8,7 @@ import os
 from dotenv import load_dotenv
 
 # Load the .env file that contains your bot token
-load_dotenv()
+load_dotenv('/home/kideya/OneToPostThemAll/test-env/.env')
 
 # Get your bot token from the environment variables
 TOKEN = os.getenv('DISCORD_BOT_TOKEN')
@@ -54,5 +55,14 @@ async def Spacestatus(ctx):
 async def Link(ctx):
     await ctx.channel.send('https://www.netz39.de/')
 
+# Command: Sends some small update about current temperature and the weather to the User change latitute/longitute to your city to see current values from you location.
+@bot.command(help= 'Whats the weather like in Magdeburg?')
+async def Wetter(ctx):
+    #fetching data from the weather api
+    responseWeather_API = requests.get('https://api.open-meteo.com/v1/forecast?latitude=52.1277&longitude=11.6292&current=temperature_2m,weather_code&forecast_days=1&models=icon_seamless').json()
+    #fetching data to translate weather codes (WMOs)
+    resoponseWMO_API = requests.get('https://gist.githubusercontent.com/stellasphere/9490c195ed2b53c707087c8c2db4ec0c/raw/76b0cb0ef0bfd8a2ec988aa54e30ecd1b483495d/descriptions.json').json()
+    await ctx.send(f'Im Moment beträgt die Temperatur in Magdeburg {responseWeather_API['current']['temperature_2m']}°C.\nZurzeit ist es {resoponseWMO_API[f'{responseWeather_API['current']['weather_code']}']['day']["description"]}.')
+
 # Run the bot using the token from the environment variable
-bot.run(TOKEN)
+bot.run(f'{TOKEN}')
